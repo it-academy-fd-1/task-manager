@@ -21,7 +21,7 @@ export class Component extends HTMLElement {
 
   connectedCallback() {
     this.compile();
-    this.componentDidMount();
+    this.componentDidMount()
   }
 
   disconnectedCallback() {
