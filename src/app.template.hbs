@@ -1,13 +1,32 @@
 <div>
   <app-router>
-    <app-route path="/" title="Home Page" component="home-page"></app-route>
     <app-route
-      path="/board/:id"
+      path="${props.routes.home}"
+      title="Home Page"
+      component="home-page"
+    ></app-route>
+    <app-route
+      path="${props.routes.dashboard}"
+      title="Dashboard Page"
+      component="dashboard-page"
+    ></app-route>
+    <app-route
+      path="${props.routes.board}/:id"
       title="Board Page"
       component="board-page"
     ></app-route>
     <app-route
-      path="/404"
+      path="${props.routes.signIn}"
+      title="Sign In"
+      component="sign-in-page"
+    ></app-route>
+    <app-route
+      path="${props.routes.signUp}"
+      title="Sign Up"
+      component="sign-up-page"
+    ></app-route>
+    <app-route
+      path="${props.routes.notFound}"
       title="404 | Not Found"
       component="not-found"
     ></app-route>
