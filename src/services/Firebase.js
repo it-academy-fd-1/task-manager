@@ -8,14 +8,13 @@ export class Firebase {
       projectId: "task-manager-students",
       storageBucket: "task-manager-students.appspot.com",
       messagingSenderId: "635966678775",
-      appId: "1:635966678775:web:ddf80aef71e989766855f2"
-    })
+      appId: "1:635966678775:web:7353effcc8711faf6855f2",
+    });
   }
 
   get app() {
-    return this._app
+    return this._app;
   }
-
 }
 
-export const firebaseService = new Firebase()
+export const firebaseService = new Firebase();
