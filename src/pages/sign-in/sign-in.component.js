@@ -4,6 +4,7 @@ import { ROUTES } from "../../constants/routes";
 
 import "../../components/input/input.component";
 import "../../components/button/button.component";
+import "../../components/loader/loader.component";
 
 export class SignIn extends Component {
   constructor() {
@@ -11,8 +12,9 @@ export class SignIn extends Component {
 
     this.state = {
       errors: {
-        email: "asdasdasd",
+        email: "",
       },
+      isLoading: true,
     };
 
     this.template = template({
