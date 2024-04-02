@@ -21,7 +21,12 @@
             href="${props.routes.signUp}"
           ></router-link></p>
         <form class="flex flex-col gap-3 sign-in-form mt-12">
-          <ui-input label="Email address" name="email" type="email"></ui-input>
+          <ui-input
+            label="Email address"
+            name="email"
+            type="email"
+            error="{{errors.email}}"
+          ></ui-input>
           <ui-input label="Password" type="password" name="password"></ui-input>
           <ui-button caption="Sign In" class-name="block w-full"></ui-button>
         </form>

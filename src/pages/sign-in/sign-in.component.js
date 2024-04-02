@@ -9,6 +9,12 @@ export class SignIn extends Component {
   constructor() {
     super();
 
+    this.state = {
+      errors: {
+        email: "",
+      },
+    };
+
     this.template = template({
       routes: ROUTES,
     });

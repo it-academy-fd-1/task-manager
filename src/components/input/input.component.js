@@ -12,6 +12,7 @@ export class Input extends Component {
       label: this.getAttribute("label"),
       className: this.getAttribute("class-name"),
       name: this.getAttribute("name"),
+      error: this.getAttribute("error"),
     };
   }
 }
