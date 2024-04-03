@@ -17,6 +17,7 @@ import "./components/button/button.component";
 import "./components/loader/loader.component";
 import { authService } from "./services/Auth";
 import { useToastNotification } from "./hooks/useToastNotification";
+import { useUserStore } from "./hooks/useUserStore";
 
 export class App extends Component {
   constructor() {
@@ -38,9 +39,10 @@ export class App extends Component {
 
   initializeApp() {
     this.toggleIsLoading();
+    const { setUser } =  useUserStore()
     authService.authorizeUser()
       .then((user) => {
-        console.log(user);
+        setUser({...user})
       })
       .catch((error) => {
         useToastNotification({ message: error.message })

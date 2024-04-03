@@ -1,26 +1,16 @@
 <div class="grid grid-rows-layout min-h-screen">
   <header class="p-5 bg-slate-50 flex justify-end">
     <nav class="flex gap-5">
-      <router-link
-        href="${props.routes.signIn}"
-        class="text-blue-600 hover:text-blue-700"
-        label="Sign In"
-      ></router-link>
-      <router-link
-        href="${props.routes.signUp}"
-        class="text-blue-600 hover:text-blue-700"
-        label="Sign Up"
-      ></router-link>
+      {{#each links}}
+      <router-link href="{{ this.href }}" class="text-blue-600 hover:text-blue-700"
+        label="{{ this.label }}"></router-link>
+      {{/each}}
     </nav>
   </header>
 
   <main>
-    <div
-      class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 pt-20 text-center lg:pt-32"
-    >
-      <h1
-        class="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl"
-      >
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16 pt-20 text-center lg:pt-32">
+      <h1 class="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl">
         Welcome to
         <span class="relative whitespace-nowrap text-blue-600">Task Manager</span>
       </h1>
