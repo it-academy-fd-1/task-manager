@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");
+import axios from "axios";
 
 class ApiService {
   constructor() {
@@ -16,8 +16,8 @@ class ApiService {
     return this.apiInstance.get(url.concat(".json"), headers);
   }
 
-  put(url, data, headers = {}) {
-    return this.apiInstance.put(url.concat(".json"), data, headers);
+  patch(url, data, headers = {}) {
+    return this.apiInstance.patch(url.concat(".json"), data, headers);
   }
 
   delete(url, headers = {}) {
