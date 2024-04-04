@@ -29,11 +29,11 @@ export class SignUp extends Component {
     evt.preventDefault();
     const formData = extractFormData(evt.target);
     this.toggleIsLoading();
-    const { setUser } =  useUserStore()
+    const { setUser } = useUserStore();
     authService
       .signUp(formData.email, formData.password)
       .then((user) => {
-        setUser({...user});
+        setUser(user);
         useToastNotification({
           message: "Success!!!",
           type: TOAST_TYPE.success,

@@ -13,34 +13,35 @@ export class HomePage extends Component {
     this.state = {
       links: [
         {
-          label: 'Sign In',
-          href: ROUTES.signIn
+          label: "Sign In",
+          href: ROUTES.signIn,
         },
         {
-          label: 'Sign Up',
-          href: ROUTES.signUp
-        }
-      ]
-    }
+          label: "Sign Up",
+          href: ROUTES.signUp,
+        },
+      ],
+    };
   }
 
   setLinks = () => {
     const { getUser } = useUserStore();
-    if(getUser()) {
+    const user = getUser();
+    console.log(user);
+    if (getUser()) {
       this.setState({
         links: [
           {
-            label: 'Dashboard',
-            href: ROUTES.dashboard
+            label: "Dashboard",
+            href: ROUTES.dashboard,
           },
-        ]
-      })
+        ],
+      });
     }
-  }
-
+  };
 
   componentDidMount() {
-    this.setLinks()
+    this.setLinks();
   }
 }
 

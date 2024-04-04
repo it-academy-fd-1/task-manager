@@ -26,7 +26,7 @@ export class App extends Component {
       routes: ROUTES,
     });
     this.state = {
-      isLoading: false
+      isLoading: false,
     };
   }
 
@@ -39,24 +39,23 @@ export class App extends Component {
 
   initializeApp() {
     this.toggleIsLoading();
-    const { setUser } =  useUserStore()
-    authService.authorizeUser()
+    const { setUser } = useUserStore();
+    authService
+      .authorizeUser()
       .then((user) => {
-        setUser({user: user.uui ? user : null})
+        setUser(user.uid ? user : null);
       })
       .catch((error) => {
-        useToastNotification({ message: error.message })
+        useToastNotification({ message: error.message });
       })
       .finally(() => {
-        this.toggleIsLoading()
-      })
+        this.toggleIsLoading();
+      });
   }
-
 
   componentDidMount() {
-    this.initializeApp()
+    this.initializeApp();
   }
-
 }
 
 customElements.define("my-app", App);

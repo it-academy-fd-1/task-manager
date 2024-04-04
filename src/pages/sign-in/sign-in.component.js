@@ -33,13 +33,13 @@ export class SignIn extends Component {
 
   signInUser = (evt) => {
     evt.preventDefault();
-    const { setUser } =  useUserStore()
+    const { setUser } = useUserStore();
     const formData = extractFormData(evt.target);
     this.toggleIsLoading();
     authService
       .signIn(formData.email, formData.password)
       .then((user) => {
-        setUser({...user})
+        setUser(user);
         useToastNotification({
           message: "Success!!!",
           type: TOAST_TYPE.success,
