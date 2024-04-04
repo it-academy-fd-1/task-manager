@@ -2,51 +2,82 @@ import { Component } from "../../core/Component";
 import template from "./dashboard.template.hbs";
 import { apiService } from "../../services/Api";
 import { mapResponseApiData } from "../../utils/api";
+import { useUserStore } from "../../hooks/useUserStore";
+import { authService } from "../../services/Auth";
+import { useToastNotification } from "../../hooks/useToastNotification";
+import { TOAST_TYPE } from "../../constants/toast";
+import { useNavigate } from "../../hooks/useNavigate";
+import { ROUTES } from "../../constants/routes";
+import { store } from "../../store/Store";
 
 export class Dashboard extends Component {
   constructor() {
     super();
 
     this.template = template();
+
+    this.state = {
+      isLoading: false,
+      user: null,
+      boards: [],
+    };
   }
 
-  create() {
-    // apiService.post("/products", item);
-  }
+  toggleIsLoading = () => {
+    this.setState({
+      ...this.state,
+      isLoading: !this.state.isLoading,
+    });
+  };
 
-  delete() {
-    console.log("delete");
-  }
+  openCreateBoardModal() {}
 
-  update() {
-    console.log("update");
-  }
+  openDeleteBoardModal() {}
 
-  get() {
-    apiService
-      .get("/products")
-      .then(({ data }) => console.log(mapResponseApiData(data)));
-  }
+  get() {}
+
+  logout = () => {
+    this.toggleIsLoading();
+    const { setUser } = useUserStore();
+    authService
+      .logOut()
+      .then(() => {
+        setUser(null);
+        useToastNotification({ type: TOAST_TYPE.success, message: "Success!" });
+        useNavigate(ROUTES.signIn);
+      })
+      .catch(({ message }) => {
+        useToastNotification({ message });
+      })
+      .finally(() => {
+        this.toggleIsLoading();
+      });
+  };
 
   onClick = ({ target }) => {
-    if (target.closest(".create")) {
-      this.create();
+    if (target.closest(".create-board")) {
+      this.openCreateBoardModal();
     }
 
-    if (target.closest(".delete")) {
-      this.delete();
+    if (target.closest(".delete-board")) {
+      this.openDeleteBoardModal();
     }
 
-    if (target.closest(".update")) {
-      this.update();
-    }
-
-    if (target.closest(".get")) {
-      this.get();
+    if (target.closest(".logout-btn")) {
+      this.logout();
     }
   };
 
+  setUser() {
+    const { getUser } = useUserStore();
+    this.setState({
+      ...this.state,
+      user: getUser(),
+    });
+  }
+
   componentDidMount() {
+    this.setUser();
     this.addEventListener("click", this.onClick);
   }
 
