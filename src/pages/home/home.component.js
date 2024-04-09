@@ -26,7 +26,6 @@ export class HomePage extends Component {
 
   setLinks = () => {
     const { getUser } = useUserStore();
-    const user = getUser();
     if (getUser()) {
       this.setState({
         links: [
