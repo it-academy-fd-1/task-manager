@@ -11,7 +11,7 @@ import { ROUTES } from "../../constants/routes";
 import { store } from "../../store/Store";
 import { useModal } from "../../hooks/useModal";
 import { extractFormData } from "../../utils/extractFormData";
-import { createBoardApi, getBoardsApi } from "../../api/boards";
+import { createBoardApi, deleteBoardApi, getBoardsApi } from "../../api/boards";
 
 export class Dashboard extends Component {
   constructor() {
@@ -40,7 +40,7 @@ export class Dashboard extends Component {
         .then(({ data }) => {
           this.setState({
             ...this.state,
-            boards: mapResponseApiData(data),
+            boards: data ? mapResponseApiData(data) : [],
           });
         })
         .catch(({ message }) => {
@@ -78,9 +78,45 @@ export class Dashboard extends Component {
     });
   }
 
-  openDeleteBoardModal() {}
-
-  get() {}
+  openDeleteBoardModal({ id, title }) {
+    useModal({
+      isOpen: true,
+      confirmation: `Do you really want to delete "${title}"`,
+      successCaption: "Delete",
+      onSuccess: () => {
+        this.toggleIsLoading();
+        deleteBoardApi(this.state.user.uid, id)
+          .then(() => {
+            this.loadAllBoards();
+            useToastNotification({
+              message: `Board "${title}" was deleted`,
+              type: TOAST_TYPE.success,
+            });
+          })
+          .catch(({ message }) => {
+            useToastNotification({ message });
+          })
+          .finally(() => {
+            this.toggleIsLoading();
+          });
+      },
+      // onSuccess: async () => {
+      //   this.toggleIsLoading();
+      //   try {
+      //     await deleteBoardApi(this.state.user.uid, id);
+      //     await this.loadAllBoards();
+      //     useToastNotification({
+      //       message: "Success!",
+      //       type: TOAST_TYPE.success,
+      //     });
+      //   } catch ({ message }) {
+      //     useToastNotification({ message });
+      //   } finally {
+      //     this.toggleIsLoading();
+      //   }
+      // },
+    });
+  }
 
   logout = () => {
     this.toggleIsLoading();
@@ -101,16 +137,28 @@ export class Dashboard extends Component {
   };
 
   onClick = ({ target }) => {
-    if (target.closest(".create-board")) {
-      this.openCreateBoardModal();
+    const boardItem = target.closest(".board-item");
+    const logoutBtn = target.closest(".logout-btn");
+    const createBoardBtn = target.closest(".create-board");
+    const deleteBoardBtn = target.closest(".delete-board");
+
+    if (deleteBoardBtn) {
+      return this.openDeleteBoardModal({
+        id: deleteBoardBtn.dataset.id,
+        title: deleteBoardBtn.dataset.title,
+      });
     }
 
-    if (target.closest(".delete-board")) {
-      this.openDeleteBoardModal();
+    if (createBoardBtn) {
+      return this.openCreateBoardModal();
     }
 
-    if (target.closest(".logout-btn")) {
-      this.logout();
+    if (logoutBtn) {
+      return this.logout();
+    }
+
+    if (boardItem) {
+      return useNavigate(`${ROUTES.board}/${boardItem.dataset.id}`);
     }
   };
 
