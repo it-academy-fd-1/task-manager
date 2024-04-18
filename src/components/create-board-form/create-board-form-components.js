@@ -5,7 +5,6 @@ import template from "./create-board-form.template.hbs";
 export class CreateBoardForm extends Component {
   constructor() {
     super();
-
     this.state = {
       error: {
         name: "",
@@ -33,7 +32,16 @@ export class CreateBoardForm extends Component {
     }
   };
 
+  initForm() {
+    this.setState({
+      ...this.state,
+      title: this.getAttribute("title"),
+      description: this.getAttribute("description"),
+    });
+  }
+
   componentDidMount() {
+    this.initForm();
     this.addEventListener("change", this.validator);
   }
 

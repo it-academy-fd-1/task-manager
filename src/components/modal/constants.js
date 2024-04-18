@@ -1,3 +1,5 @@
+import { data } from "autoprefixer";
+
 export const INITIAL_STATE = {
   isOpen: false,
   title: "Modal",
@@ -7,4 +9,5 @@ export const INITIAL_STATE = {
   confirmation: null,
   onSuccess: null,
   isError: false,
+  data: null,
 };

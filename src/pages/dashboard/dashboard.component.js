@@ -56,6 +56,10 @@ export class Dashboard extends Component {
     useModal({
       isOpen: true,
       template: "ui-create-board-form",
+      data: {
+        title: "Board #1",
+        description: "Some Description",
+      },
       onSuccess: (modal) => {
         const form = modal.querySelector(".create-board-form");
         const formData = extractFormData(form);
