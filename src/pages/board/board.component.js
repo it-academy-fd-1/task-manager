@@ -7,6 +7,7 @@ import { ROUTES } from "../../constants/routes";
 import { useModal } from "../../hooks/useModal";
 import { extractFormData } from "../../utils/extractFormData";
 import { storageService } from "../../services/Storage";
+import { createTaskAPI, getAllTasksAPI } from "../../api/tasks";
 
 export class BoardPage extends Component {
   constructor() {
@@ -57,7 +58,14 @@ export class BoardPage extends Component {
         this.uploadAttachments(preparedData.attachments)
           .then(this.loadAttachmentsUrl)
           .then((data) => {
-            console.log(data);
+            createTaskAPI({
+              uid: this.state.user.uid,
+              boardId: this.state.boardId,
+              data: {
+                ...preparedData,
+                attachments: data,
+              },
+            });
           });
       },
     });
