@@ -8,6 +8,9 @@ import { useModal } from "../../hooks/useModal";
 import { extractFormData } from "../../utils/extractFormData";
 import { storageService } from "../../services/Storage";
 import { createTaskAPI, getAllTasksAPI } from "../../api/tasks";
+import { TASK_STATUSES } from "../../constants/task";
+import { useToastNotification } from "../../hooks/useToastNotification";
+import { mapResponseApiData } from "../../utils/api";
 
 export class BoardPage extends Component {
   constructor() {
@@ -23,6 +26,39 @@ export class BoardPage extends Component {
       boardId: this.getAttribute("id"),
       user: getUser(),
     });
+  }
+
+  toggleIsLoading = () => {
+    this.setState({
+      ...this.state,
+      isLoading: !this.state.isLoading,
+    });
+  };
+
+  getAllTasks() {
+    const { user, boardId } = this.state;
+    if (user?.uid) {
+      this.toggleIsLoading();
+
+      getAllTasksAPI(user.uid, boardId)
+        .then(({ data }) => {
+          this.setState({
+            ...this.state,
+            columns: this.state.columns.map((column) => {
+              return {
+                ...column,
+                tasks: mapResponseApiData(data).filter(
+                  (item) => item.status === column.status
+                ),
+              };
+            }),
+          });
+        })
+        .catch(({ message }) => {
+          useToastNotification({ message });
+        })
+        .finally(() => this.toggleIsLoading());
+    }
   }
 
   uploadAttachments(attachments) {
@@ -54,7 +90,7 @@ export class BoardPage extends Component {
           ...extractFormData(form),
           attachments: formData.getAll("attachments"),
         };
-
+        this.toggleIsLoading();
         this.uploadAttachments(preparedData.attachments)
           .then(this.loadAttachmentsUrl)
           .then((data) => {
@@ -64,8 +100,16 @@ export class BoardPage extends Component {
               data: {
                 ...preparedData,
                 attachments: data,
+                status: TASK_STATUSES.todo,
+                createdAt: new Date(),
               },
             });
+          })
+          .catch(({ message }) => {
+            useToastNotification({ message });
+          })
+          .finally(() => {
+            this.toggleIsLoading();
           });
       },
     });
@@ -86,6 +130,7 @@ export class BoardPage extends Component {
 
   componentDidMount() {
     this.initialization();
+    this.getAllTasks();
     this.addEventListener("click", this.onClick);
   }
 }
