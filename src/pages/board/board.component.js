@@ -103,7 +103,7 @@ export class BoardPage extends Component {
                 status: TASK_STATUSES.todo,
                 createdAt: new Date(),
               },
-            });
+            }).then(() => this.getAllTasks());
           })
           .catch(({ message }) => {
             useToastNotification({ message });
