@@ -63,6 +63,10 @@ export class BoardPage extends Component {
   }
 
   uploadAttachments(attachments) {
+    if (attachments.length === 0) {
+      return Promise.resolve([]);
+    }
+
     const { user, boardId } = this.state;
     const path = `${user.uid}/${boardId}`;
     const promiseFiles = attachments.map((attachment) => {
@@ -73,6 +77,10 @@ export class BoardPage extends Component {
   }
 
   loadAttachmentsUrl(data) {
+    if (data.length === 0) {
+      return Promise.resolve([]);
+    }
+
     return Promise.all(
       data.map((snapshot) => storageService.downloadURL(snapshot.ref))
     );
@@ -89,7 +97,9 @@ export class BoardPage extends Component {
         const formData = new FormData(form);
         const preparedData = {
           ...extractFormData(form),
-          attachments: formData.getAll("attachments"),
+          attachments: formData
+            .getAll("attachments")
+            .filter((item) => item.name),
         };
         this.toggleIsLoading();
         this.uploadAttachments(preparedData.attachments)

@@ -22,6 +22,7 @@ export class CreateTaskForm extends Component {
 
   loadImages = ({ target }) => {
     if (target.closest(".attachments")) {
+      console.log(target.files);
       const files = Array.from(target.files).map((file) => fileReader(file));
       Promise.all(files).then((data) => {
         data.forEach(this.appendImage);
