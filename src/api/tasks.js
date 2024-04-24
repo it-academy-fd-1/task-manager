@@ -9,18 +9,13 @@ export const getAllTasksAPI = (uid, boardId) => {
   return apiService.get(`${uid}/${API_URLS.tasks}/${boardId}`);
 };
 
-export const getAllTaskByIdAPI = ({ uid, boardId, taskId }) => {
-  return apiService.get(`${uid}/${API_URLS.tasks}/${boardId}/${taskId}`);
-};
-
-export const getTaskAPI = ({ uid, boardId, taskId }) => {
-  return apiService.get(`${uid}/${API_URLS.tasks}/${boardId}/${taskId}`);
-};
-
-export const deleteTaskAPI = ({ uid, boardId, taskId }) => {
-  return apiService.delete(`${uid}/${API_URLS.tasks}/${boardId}/${taskId}`);
-};
-
 export const updateTaskAPI = ({ uid, boardId, taskId, data }) => {
-  return apiService.put(`${uid}/${API_URLS.tasks}/${boardId}/${taskId}`, data);
+  return apiService.patch(
+    `${uid}/${API_URLS.tasks}/${boardId}/${taskId}`,
+    data
+  );
+};
+
+export const getTaskByIdAPI = ({ uid, boardId, taskId }) => {
+  return apiService.get(`${uid}/${API_URLS.tasks}/${boardId}/${taskId}`);
 };

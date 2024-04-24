@@ -3,4 +3,5 @@ export const EVENT_TYPES = {
   toastNotification: "ui:toast:notification",
   store: "store:changed",
   modal: "ui:modal",
+  drawer: "ui:drawer",
 };
